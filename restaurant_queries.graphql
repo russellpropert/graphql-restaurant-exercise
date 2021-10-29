@@ -1,0 +1,71 @@
+query findRestaurant($id: Int!) {
+  restaurant(id: $id) {
+    id
+    name
+    description
+    dishes{
+      name
+      price
+    }
+  }
+}
+
+query restaurants {
+  restaurants {
+    id
+    name
+    description
+    dishes {
+      name
+      price
+    }
+  }
+}
+
+mutation setRestaurant {
+  setrestaurant(input: {
+    id: 4,
+    name: "1906", 
+    description: "Longwood Gardens find dining.",
+		dishes: [
+      {
+        name: "Creekstone Farms Braised Short Rib",
+        price: 27
+      },
+            {
+        name: "Berkshire Pork Chop",
+        price: 25
+    	}      {
+        name: "Jail Island Salmon",
+        price: 32
+    	}
+    ]
+  }) {
+    id
+    name
+    description
+    dishes {
+      name
+      price
+    }
+  }
+}
+
+mutation deleteRestauraunt($id: Int!) {
+  deleterestaurant(id: $id) {
+    ok
+  }
+}
+
+mutation editRestaurant($id: Int!, $name: String!) {
+  editrestaurant(id: $id, name: $name) {
+    id
+		name
+  }
+}
+
+# Variables
+{
+  "id": 2,
+  "name": "Some Other Name"
+}
