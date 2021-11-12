@@ -1,4 +1,4 @@
-# Holy Grail Layout
+# GraphQL Restaurant Exercise
 
 ## Description
 This is a GraphQL API demo. It can be used with Postman, but it also has its own interface. The queries and mutations in restaurant_queries.txt can be used to demonstrate the API's functionality.  
