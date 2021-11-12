@@ -1,3 +1,5 @@
+# Queries and Mutations
+
 query findRestaurant($id: Int!) {
   restaurant(id: $id) {
     id
@@ -10,6 +12,8 @@ query findRestaurant($id: Int!) {
   }
 }
 
+
+
 query restaurants {
   restaurants {
     id
@@ -21,6 +25,8 @@ query restaurants {
     }
   }
 }
+
+
 
 mutation setRestaurant {
   setrestaurant(input: {
@@ -51,20 +57,28 @@ mutation setRestaurant {
   }
 }
 
+
+
 mutation deleteRestauraunt($id: Int!) {
   deleterestaurant(id: $id) {
     ok
   }
 }
 
+
+
 mutation editRestaurant($id: Int!, $name: String!) {
   editrestaurant(id: $id, name: $name) {
     id
-		name
+    name
   }
 }
 
+
+
+
 # Variables
+
 {
   "id": 2,
   "name": "Some Other Name"
