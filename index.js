@@ -100,10 +100,7 @@ type Mutation {
 
 const root = {
   restaurant: (arg) => {
-    const restaurant = restaurants.find(restaurant => restaurant.id === arg.id)
-    const index = restaurants.indexOf(restaurant);
-    return restaurants[index];
-
+    return restaurants.find(restaurant => restaurant.id === arg.id)
   },
   restaurants: () => {
     return restaurants
