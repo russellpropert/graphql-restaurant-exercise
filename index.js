@@ -62,7 +62,7 @@ const restaurants = [
   },
 ];
 
-const schema = buildSchema(`
+const schema = buildSchema(`#graphql
 type Query {
   restaurant(id: Int): Restaurant
   restaurants: [Restaurant]
