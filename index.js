@@ -5,7 +5,7 @@ const express = require("express");
 // Construct a schema, using GraphQL schema language
 const restaurants = [
   {
-    id: 1,
+    id: '1',
     name: "WoodsHill ",
     description:
       "American cuisine, farm to table, with fresh produce every day",
@@ -15,13 +15,13 @@ const restaurants = [
         price: 27,
       },
       {
-        name: "Roasted Broccily ",
+        name: "Roasted Broccoli",
         price: 11,
       },
     ],
   },
   {
-    id: 2,
+    id: '2',
     name: "Fiorellas",
     description:
       "Italian-American home cooked food with fresh pasta and sauces",
@@ -41,7 +41,7 @@ const restaurants = [
     ],
   },
   {
-    id: 3,
+    id: '3',
     name: "Karma",
     description:
       "Malaysian-Chinese-Japanese fusion, with great bar and bartenders",
@@ -64,36 +64,36 @@ const restaurants = [
 
 const schema = buildSchema(`#graphql
 type Query {
-  restaurant(id: Int): Restaurant
+  restaurant(id: ID!): Restaurant
   restaurants: [Restaurant]
 },
 type Restaurant {
-  id: Int
-  name: String
+  id: ID!
+  name: String!
   description: String
-  dishes:[Dish]
+  dishes:[Dish!]!
 }
 type Dish {
-  name: String
-  price: Int
+  name: String!
+  price: Int!
 }
 input restaurantInput {
-  id: Int
-  name: String
+  id: ID!
+  name: String!
   description: String
-  dishes: [dishInput]
+  dishes: [dishInput!]!
 }
 input dishInput {
-  name: String
-  price: Int
+  name: String!
+  price: Int!
 }
 type DeleteResponse {
   ok: Boolean!
 }
 type Mutation {
-  setrestaurant(input: restaurantInput): Restaurant
-  deleterestaurant(id: Int!): DeleteResponse
-  editrestaurant(id: Int!, name: String!): Restaurant
+  setrestaurant(input: restaurantInput!): Restaurant
+  deleterestaurant(id: ID!): DeleteResponse
+  editrestaurant(id: ID!, name: String!): Restaurant
 }
 `);
 // The root provides a resolver function for each API endpoint

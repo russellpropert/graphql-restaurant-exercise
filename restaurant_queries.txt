@@ -1,6 +1,6 @@
 # Queries and Mutations
 
-query findRestaurant($id: Int!) {
+query findRestaurant($id: ID!) {
   restaurant(id: $id) {
     id
     name
@@ -30,19 +30,19 @@ query restaurants {
 
 mutation setRestaurant {
   setrestaurant(input: {
-    id: 4,
-    name: "1906", 
-    description: "Longwood Gardens find dining.",
+    id: "4"
+    name: "1906",
+    description: "Longwood Gardens find dining."
 		dishes: [
       {
-        name: "Creekstone Farms Braised Short Rib",
+        name: "Creekstone Farms Braised Short Rib"
         price: 27
       },
             {
-        name: "Berkshire Pork Chop",
+        name: "Berkshire Pork Chop"
         price: 25
     	}      {
-        name: "Jail Island Salmon",
+        name: "Jail Island Salmon"
         price: 32
     	}
     ]
@@ -59,7 +59,7 @@ mutation setRestaurant {
 
 
 
-mutation deleteRestauraunt($id: Int!) {
+mutation deleteRestaurant($id: ID!) {
   deleterestaurant(id: $id) {
     ok
   }
@@ -67,7 +67,7 @@ mutation deleteRestauraunt($id: Int!) {
 
 
 
-mutation editRestaurant($id: Int!, $name: String!) {
+mutation editRestaurant($id: ID!, $name: String!) {
   editrestaurant(id: $id, name: $name) {
     id
     name
@@ -80,6 +80,6 @@ mutation editRestaurant($id: Int!, $name: String!) {
 # Variables
 
 {
-  "id": 2,
+  "id": "2",
   "name": "Some Other Name"
 }
