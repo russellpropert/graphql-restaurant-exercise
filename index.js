@@ -1,6 +1,6 @@
-const { graphqlHTTP } = require("express-graphql");
-const { buildSchema } = require("graphql");
-const express = require("express");
+import { graphqlHTTP } from "express-graphql";
+import { buildSchema } from "graphql";
+import express from "express";
 
 // Construct a schema, using GraphQL schema language
 const restaurants = [
@@ -100,14 +100,14 @@ type Mutation {
   editRestaurant(id: ID!, input: RestaurantUpdateInput!): Restaurant
 }
 `);
-// The root provides a resolver function for each API endpoint
 
+// The root provides a resolver function for each API endpoint.
 const root = {
   restaurant: (arg) => {
     return restaurants.find(restaurant => restaurant.id === arg.id)
   },
   restaurants: () => {
-    return restaurants
+    return restaurants;
   },
   setRestaurant: ({ input }) => {
     if (!restaurants.some(restaurant => restaurant.id === input.id)) {
@@ -126,7 +126,7 @@ const root = {
   editRestaurant: ({ id, input }) => {
     const restaurant = restaurants.find(restaurant => restaurant.id === id);
     if (restaurant) {
-      Object.assign(restaurant, input)
+      Object.assign(restaurant, input);
     } else {
       throw new Error("Restaurant doesn't exist");
     }
