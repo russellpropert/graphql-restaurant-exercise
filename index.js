@@ -97,6 +97,7 @@ type DeleteResponse {
 type Mutation {
   setRestaurant(input: restaurantInput!): Restaurant
   deleteRestaurant(id: ID!): DeleteResponse
+  deleteDish(restaurantId: ID!, dishName: String!): DeleteResponse
   editRestaurant(id: ID!, input: RestaurantUpdateInput!): Restaurant
 }
 `);
@@ -122,7 +123,20 @@ const root = {
     const ok = Boolean(restaurant);
     const index = restaurants.indexOf(restaurant);
     restaurants.splice(index, 1);
-    return {ok};  },
+    return { ok };  
+  },
+  deleteDish: ({ restaurantId, dishName }) => {
+    const restaurant = restaurants.find(restaurant => restaurant.id === restaurantId);
+    const dish = restaurant.dishes.find(dish => dish.name === dishName);
+    const ok = Boolean(dish);
+    if (ok) {
+      const index = restaurant.dishes.indexOf(restaurant.dishes);
+      restaurant.dishes.splice(index, 1);
+    } else {
+      throw new Error(`The dish ${dishName} is not on the ${restaurant.name} menu.`)
+    }
+    return { ok };
+  },
   editRestaurant: ({ id, input }) => {
     const restaurant = restaurants.find(restaurant => restaurant.id === id);
     if (restaurant) {
