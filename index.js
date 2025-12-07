@@ -87,6 +87,9 @@ input dishInput {
   name: String!
   price: Int!
 }
+input dishesInput {
+  dishes: [dishInput!]!
+}
 input RestaurantUpdateInput {
   name: String
   description: String
@@ -99,6 +102,7 @@ type Mutation {
   deleteRestaurant(id: ID!): DeleteResponse
   deleteDish(restaurantId: ID!, dishName: String!): DeleteResponse
   addDish(restaurantId: ID!, input: dishInput!): Restaurant
+  replaceAllDishes(restaurantId: ID!, input: dishesInput!): Restaurant
   editRestaurant(id: ID!, input: RestaurantUpdateInput!): Restaurant
 }
 `);
@@ -148,6 +152,12 @@ const root = {
     } else {
       throw new Error(`${input.name} is already on the ${restaurant.name} menu.`);
     }
+  },
+  replaceAllDishes: ({ restaurantId, input }) => {
+    const restaurant = restaurants.find(restaurant => restaurant.id === restaurantId);
+    if (!restaurant) throw new Error(`Restaurant ID ${restaurantId} does not exist.`);
+    restaurant.dishes = input.dishes;
+    return restaurant;
   },
   editRestaurant: ({ id, input }) => {
     const restaurant = restaurants.find(restaurant => restaurant.id === id);
