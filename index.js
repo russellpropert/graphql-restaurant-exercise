@@ -91,9 +91,9 @@ type DeleteResponse {
   ok: Boolean!
 }
 type Mutation {
-  setrestaurant(input: restaurantInput!): Restaurant
-  deleterestaurant(id: ID!): DeleteResponse
-  editrestaurant(id: ID!, name: String!): Restaurant
+  setRestaurant(input: restaurantInput!): Restaurant
+  deleteRestaurant(id: ID!): DeleteResponse
+  editRestaurant(id: ID!, name: String!): Restaurant
 }
 `);
 // The root provides a resolver function for each API endpoint
@@ -105,17 +105,17 @@ const root = {
   restaurants: () => {
     return restaurants
   },
-  setrestaurant: ({ input }) => {
+  setRestaurant: ({ input }) => {
     restaurants.push(input);
     return input;
   },
-  deleterestaurant: ({ id }) => {
+  deleteRestaurant: ({ id }) => {
     const restaurant = restaurants.find(restaurant => restaurant.id === id);
     const ok = Boolean(restaurant);
     const index = restaurants.indexOf(restaurant);
     restaurants.splice(index, 1);
     return {ok};  },
-  editrestaurant: ({ id, ...restaurant }) => {
+  editRestaurant: ({ id, ...restaurant }) => {
     const verifyRestaurant = restaurants.find(restaurant => restaurant.id === id);
     const index = restaurants.indexOf(verifyRestaurant);
     if (!verifyRestaurant) {
