@@ -87,13 +87,17 @@ input dishInput {
   name: String!
   price: Int!
 }
+input RestaurantUpdateInput {
+  name: String
+  description: String
+}
 type DeleteResponse {
   ok: Boolean!
 }
 type Mutation {
   setRestaurant(input: restaurantInput!): Restaurant
   deleteRestaurant(id: ID!): DeleteResponse
-  editRestaurant(id: ID!, name: String!): Restaurant
+  editRestaurant(id: ID!, input: RestaurantUpdateInput!): Restaurant
 }
 `);
 // The root provides a resolver function for each API endpoint
@@ -119,16 +123,14 @@ const root = {
     const index = restaurants.indexOf(restaurant);
     restaurants.splice(index, 1);
     return {ok};  },
-  editRestaurant: ({ id, ...restaurant }) => {
-    const verifyRestaurant = restaurants.find(restaurant => restaurant.id === id);
-    const index = restaurants.indexOf(verifyRestaurant);
-    if (!verifyRestaurant) {
+  editRestaurant: ({ id, input }) => {
+    const restaurant = restaurants.find(restaurant => restaurant.id === id);
+    if (restaurant) {
+      Object.assign(restaurant, input)
+    } else {
       throw new Error("Restaurant doesn't exist");
     }
-    restaurants[index] = {
-      ...restaurants[index], ...restaurant
-    }
-    return restaurants[index];
+    return restaurant;
   },
 };
 
