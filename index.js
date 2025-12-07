@@ -106,8 +106,12 @@ const root = {
     return restaurants
   },
   setRestaurant: ({ input }) => {
-    restaurants.push(input);
-    return input;
+    if (!restaurants.some(restaurant => restaurant.id === input.id)) {
+      restaurants.push(input);
+      return input;
+    } else {
+      throw new Error(`The id of ${input.id} is already in use.`);
+    }
   },
   deleteRestaurant: ({ id }) => {
     const restaurant = restaurants.find(restaurant => restaurant.id === id);
