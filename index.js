@@ -107,10 +107,19 @@ type Mutation {
 }
 `);
 
+const getRestaurant = (restaurantId) => {
+  const restaurant = restaurants.find(restaurant => restaurant.id === restaurantId);
+  if (restaurant) {
+    return restaurant;
+  } else {
+    throw new Error(`Restaurant ID ${restaurantId} does not exist.`);
+  }
+}
+
 // The root provides a resolver function for each API endpoint.
 const root = {
-  restaurant: (arg) => {
-    return restaurants.find(restaurant => restaurant.id === arg.id)
+  restaurant: ({ id }) => {
+    return getRestaurant(id);
   },
   restaurants: () => {
     return restaurants;
@@ -124,14 +133,14 @@ const root = {
     }
   },
   deleteRestaurant: ({ id }) => {
-    const restaurant = restaurants.find(restaurant => restaurant.id === id);
+    const restaurant = getRestaurant(id);
     const ok = Boolean(restaurant);
     const index = restaurants.indexOf(restaurant);
     restaurants.splice(index, 1);
     return { ok };  
   },
   deleteDish: ({ restaurantId, dishName }) => {
-    const restaurant = restaurants.find(restaurant => restaurant.id === restaurantId);
+    const restaurant = getRestaurant(restaurantId);
     const dish = restaurant.dishes.find(dish => dish.name === dishName);
     const ok = Boolean(dish);
     if (ok) {
@@ -143,7 +152,7 @@ const root = {
     return { ok };
   },
   addDish: ({ restaurantId, input }) => {
-    const restaurant = restaurants.find(restaurant => restaurant.id === restaurantId);
+    const restaurant = getRestaurant(restaurantId);
     if (!restaurant) throw new Error(`Restaurant ID ${restaurantId} does not exist.`);
     const dishExists = restaurant.dishes.find(dish => dish.name === input.name);
     if (!dishExists) {
@@ -154,13 +163,13 @@ const root = {
     }
   },
   replaceAllDishes: ({ restaurantId, input }) => {
-    const restaurant = restaurants.find(restaurant => restaurant.id === restaurantId);
-    if (!restaurant) throw new Error(`Restaurant ID ${restaurantId} does not exist.`);
+    const restaurant = getRestaurant(restaurantId);
     restaurant.dishes = input.dishes;
     return restaurant;
   },
   editRestaurant: ({ id, input }) => {
-    const restaurant = restaurants.find(restaurant => restaurant.id === id);
+    console.log(id);
+    const restaurant = getRestaurant(id);
     if (restaurant) {
       Object.assign(restaurant, input);
     } else {
