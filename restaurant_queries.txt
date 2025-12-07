@@ -1,18 +1,15 @@
 # Queries and Mutations
 
-query findRestaurant($id: ID!) {
+query restaurant($id: ID!) {
   restaurant(id: $id) {
-    id
     name
     description
-    dishes{
+    dishes {
       name
       price
     }
   }
 }
-
-
 
 query restaurants {
   restaurants {
@@ -26,30 +23,131 @@ query restaurants {
   }
 }
 
-
-
 mutation setRestaurant {
-  setrestaurant(input: {
+	setRestaurant(input: {
     id: "4"
-    name: "1906",
-    description: "Longwood Gardens find dining."
-		dishes: [
+    name: "Test Place"
+    description: "Good food."
+    dishes: [
       {
-        name: "Creekstone Farms Braised Short Rib"
-        price: 27
-      },
-            {
-        name: "Berkshire Pork Chop"
-        price: 25
-    	}      {
-        name: "Jail Island Salmon"
-        price: 32
-    	}
+        name: "Chicken"
+        price: 10
+      }
+      {
+        name: "Steak"
+        price: 15
+      }
+      {
+        name: "Pork"
+        price: 12
+      }
     ]
-  }) {
+  })
+  {
+    id
+    description
+    dishes {
+      name
+    }
+  }
+}
+
+
+mutation deleteRestaurant($id: ID!) {
+  deleteRestaurant(id: $id) {
+    id
+    name
+  }
+}
+
+mutation deleteDish($id: ID!, $dishName: String!) {
+  deleteDish(
+    restaurantId: $id, 
+    dishName: $dishName
+  )
+  {
+  	id
+    name
+    dishes {
+      name
+    }
+  }
+}
+
+mutation addDish($id: ID!, $dishName: String!) {
+  addDish(
+    restaurantId: $id,
+    input: {
+      name: $dishName
+      price: 20
+    }
+  )
+  {
+    name
+    dishes {
+      name
+      price
+    }
+  }
+}
+
+mutation replaceAllDishes($id: ID!) {
+  replaceAllDishes(
+    restaurantId: $id,
+    input: {
+      dishes: [
+        {
+          name: "Chicken"
+          price: 10
+        }
+        {
+          name: "Steak"
+          price: 15
+        }
+        {
+          name: "Pork"
+          price: 12
+        }
+      ]
+    }
+  )
+  {
+    id
+    name
+    dishes {
+      name
+      price
+    }
+  }
+}
+
+mutation editRestaurant($id: ID!) {
+  editRestaurant(
+    id: $id,
+    input: {
+      name: "Test Restaurant"
+      description: "Test Restaurant"
+  	}
+  )
+  {
     id
     name
     description
+  }
+}
+
+mutation editDish($id: ID!, $dishName: String!) {
+  editDish(
+    restaurantId: $id,
+    dishName: $dishName
+    input: {
+      name: "Roasted Broccoli with Cheese"
+      price: 14
+    }
+  )
+  {
+    id
+    name
     dishes {
       name
       price
@@ -58,28 +156,9 @@ mutation setRestaurant {
 }
 
 
-
-mutation deleteRestaurant($id: ID!) {
-  deleterestaurant(id: $id) {
-    ok
-  }
-}
-
-
-
-mutation editRestaurant($id: ID!, $name: String!) {
-  editrestaurant(id: $id, name: $name) {
-    id
-    name
-  }
-}
-
-
-
-
 # Variables
 
 {
-  "id": "2",
-  "name": "Some Other Name"
+  "id": "1",
+  "dishName": "Roasted Broccoli"
 }
