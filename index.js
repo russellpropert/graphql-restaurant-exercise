@@ -108,7 +108,7 @@ input DishUpdateInput {
 
 type Mutation {
   setRestaurant(input: restaurantInput!): Restaurant
-  deleteRestaurant(id: ID!): Restaurant
+  deleteRestaurant(id: ID!): [Restaurant]
   deleteDish(restaurantId: ID!, dishName: String!): Restaurant
   addDish(restaurantId: ID!, input: dishInput!): Restaurant
   replaceAllDishes(restaurantId: ID!, input: dishesInput!): Restaurant
@@ -155,7 +155,7 @@ const root = {
     const restaurant = getRestaurant(id);
     const index = restaurants.indexOf(restaurant);
     restaurants.splice(index, 1);
-    return restaurant;  
+    return restaurants;  
   },
   deleteDish: ({ restaurantId, dishName }) => {
     const restaurant = getRestaurant(restaurantId);
