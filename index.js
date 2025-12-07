@@ -6,7 +6,7 @@ import express from "express";
 const restaurants = [
   {
     id: '1',
-    name: "WoodsHill ",
+    name: "WoodsHill",
     description:
       "American cuisine, farm to table, with fresh produce every day",
     dishes: [
@@ -98,6 +98,7 @@ type Mutation {
   setRestaurant(input: restaurantInput!): Restaurant
   deleteRestaurant(id: ID!): DeleteResponse
   deleteDish(restaurantId: ID!, dishName: String!): DeleteResponse
+  addDish(restaurantId: ID!, input: dishInput!): Restaurant
   editRestaurant(id: ID!, input: RestaurantUpdateInput!): Restaurant
 }
 `);
@@ -136,6 +137,17 @@ const root = {
       throw new Error(`The dish ${dishName} is not on the ${restaurant.name} menu.`)
     }
     return { ok };
+  },
+  addDish: ({ restaurantId, input }) => {
+    const restaurant = restaurants.find(restaurant => restaurant.id === restaurantId);
+    if (!restaurant) throw new Error(`Restaurant ID ${restaurantId} does not exist.`);
+    const dishExists = restaurant.dishes.find(dish => dish.name === input.name);
+    if (!dishExists) {
+      restaurant.dishes.push(input);
+      return restaurant;
+    } else {
+      throw new Error(`${input.name} is already on the ${restaurant.name} menu.`);
+    }
   },
   editRestaurant: ({ id, input }) => {
     const restaurant = restaurants.find(restaurant => restaurant.id === id);
