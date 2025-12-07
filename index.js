@@ -113,7 +113,7 @@ type Mutation {
   addDish(restaurantId: ID!, input: dishInput!): Restaurant
   replaceAllDishes(restaurantId: ID!, input: dishesInput!): Restaurant
   editRestaurant(id: ID!, input: RestaurantUpdateInput!): Restaurant
-  editDish(restaurantId: ID!, dishName: String! input: DishUpdateInput!): Restaurant
+  editDish(restaurantId: ID!, dishName: String!, input: DishUpdateInput!): Restaurant
 }
 `);
 
