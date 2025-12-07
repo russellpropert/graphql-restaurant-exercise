@@ -66,45 +66,50 @@ const schema = buildSchema(`#graphql
 type Query {
   restaurant(id: ID!): Restaurant
   restaurants: [Restaurant]
-},
+}
+
 type Restaurant {
   id: ID!
   name: String!
   description: String
   dishes:[Dish!]!
 }
+
 type Dish {
   name: String!
   price: Int!
 }
+
 input restaurantInput {
   id: ID!
   name: String!
   description: String
   dishes: [dishInput!]!
 }
+
 input dishInput {
   name: String!
   price: Int!
 }
+
 input dishesInput {
   dishes: [dishInput!]!
 }
+
 input RestaurantUpdateInput {
   name: String
   description: String
 }
+
 input DishUpdateInput {
   name: String
   price: Int
 }
-type DeleteResponse {
-  ok: Boolean!
-}
+
 type Mutation {
   setRestaurant(input: restaurantInput!): Restaurant
-  deleteRestaurant(id: ID!): DeleteResponse
-  deleteDish(restaurantId: ID!, dishName: String!): DeleteResponse
+  deleteRestaurant(id: ID!): Restaurant
+  deleteDish(restaurantId: ID!, dishName: String!): Restaurant
   addDish(restaurantId: ID!, input: dishInput!): Restaurant
   replaceAllDishes(restaurantId: ID!, input: dishesInput!): Restaurant
   editRestaurant(id: ID!, input: RestaurantUpdateInput!): Restaurant
@@ -148,18 +153,16 @@ const root = {
   },
   deleteRestaurant: ({ id }) => {
     const restaurant = getRestaurant(id);
-    const ok = Boolean(restaurant);
     const index = restaurants.indexOf(restaurant);
     restaurants.splice(index, 1);
-    return { ok };  
+    return restaurant;  
   },
   deleteDish: ({ restaurantId, dishName }) => {
     const restaurant = getRestaurant(restaurantId);
     const dish = getDish(restaurant, dishName);
-    const ok = Boolean(dish);
     const index = restaurant.dishes.indexOf(dish);
     restaurant.dishes.splice(index, 1);
-    return { ok };
+    return restaurant;
   },
   addDish: ({ restaurantId, input }) => {
     const restaurant = getRestaurant(restaurantId);
