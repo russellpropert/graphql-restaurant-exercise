@@ -8,10 +8,10 @@ const restaurants = [
     id: '1',
     name: "WoodsHill",
     description:
-      "American cuisine, farm to table, with fresh produce every day",
+      "American cuisine, farm to table, with fresh produce every day.",
     dishes: [
       {
-        name: "Swordfish grill",
+        name: "Swordfish Grill",
         price: 27,
       },
       {
@@ -24,7 +24,7 @@ const restaurants = [
     id: '2',
     name: "Fiorellas",
     description:
-      "Italian-American home cooked food with fresh pasta and sauces",
+      "Italian-American home cooked food with fresh pasta and sauces.",
     dishes: [
       {
         name: "Flatbread",
@@ -44,18 +44,18 @@ const restaurants = [
     id: '3',
     name: "Karma",
     description:
-      "Malaysian-Chinese-Japanese fusion, with great bar and bartenders",
+      "Malaysian-Chinese-Japanese fusion, with great bar and bartenders.",
     dishes: [
       {
         name: "Dragon Roll",
         price: 12,
       },
       {
-        name: "Pancake roll ",
+        name: "Pancake Roll ",
         price: 11,
       },
       {
-        name: "Cod cakes",
+        name: "Cod Cakes",
         price: 13,
       },
     ],
@@ -94,6 +94,10 @@ input RestaurantUpdateInput {
   name: String
   description: String
 }
+input DishUpdateInput {
+  name: String
+  price: Int
+}
 type DeleteResponse {
   ok: Boolean!
 }
@@ -104,6 +108,7 @@ type Mutation {
   addDish(restaurantId: ID!, input: dishInput!): Restaurant
   replaceAllDishes(restaurantId: ID!, input: dishesInput!): Restaurant
   editRestaurant(id: ID!, input: RestaurantUpdateInput!): Restaurant
+  editDish(restaurantId: ID!, dishName: String! input: DishUpdateInput!): Restaurant
 }
 `);
 
@@ -147,14 +152,14 @@ const root = {
       const index = restaurant.dishes.indexOf(restaurant.dishes);
       restaurant.dishes.splice(index, 1);
     } else {
-      throw new Error(`The dish ${dishName} is not on the ${restaurant.name} menu.`)
+      throw new Error(`The dish ${dishName} is not on the ${restaurant.name} menu.`);
     }
     return { ok };
   },
   addDish: ({ restaurantId, input }) => {
     const restaurant = getRestaurant(restaurantId);
     if (!restaurant) throw new Error(`Restaurant ID ${restaurantId} does not exist.`);
-    const dishExists = restaurant.dishes.find(dish => dish.name === input.name);
+    const dishExists = restaurant.dishes.some(dish => dish.name === dishName);
     if (!dishExists) {
       restaurant.dishes.push(input);
       return restaurant;
@@ -174,6 +179,16 @@ const root = {
       Object.assign(restaurant, input);
     } else {
       throw new Error("Restaurant doesn't exist");
+    }
+    return restaurant;
+  },
+  editDish: ({ restaurantId, dishName, input }) => {
+    const restaurant = getRestaurant(restaurantId);
+    const dish = restaurant.dishes.find(dish => dish.name === dishName);
+    if (dish) {
+      Object.assign(dish, input);
+    } else {
+      throw new Error(`The dish ${dishName} is not on the ${restaurant.name} menu.`);
     }
     return restaurant;
   },
