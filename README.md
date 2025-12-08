@@ -10,7 +10,7 @@ Run in a local folder by running the following commands:
 npm install  
 npm start  
 
-To use the GraphQL interface, use your web browser to navigate to http://localhost:5500/graphql. The same address can be used for Postman.  
+To use the GraphiQL interface, use your web browser to navigate to http://localhost:5500/graphql. The same address can be used for Postman.  
 
 ## MIT License
 Copyright (c) 2021 Russell Propert
