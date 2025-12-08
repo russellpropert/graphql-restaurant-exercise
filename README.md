@@ -1,7 +1,7 @@
 # GraphQL Restaurant Exercise
 
 ## Description
-This is a GraphQL API demo. It can be used with Postman, but it also has its own interface. The queries and mutations in restaurant_queries.txt can be used to demonstrate the API's functionality.  
+This is a GraphiQL API demo. It can be used with Postman, but it also has its own interface. The queries and mutations in restaurant_queries.txt can be used to demonstrate the API's functionality.  
 
 ## How To Run
 [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) is required to run.
